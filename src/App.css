@@ -94,12 +94,11 @@ input[type="number"] {
   text-align: center;
 }
 
-button[type="submit"] {
+.btn {
   display: block;
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
-  background-color: #007bff;
+  background-color: #ccc;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -108,8 +107,20 @@ button[type="submit"] {
   border-radius: 5px;
   transition: background-color ease-in-out 150ms;
 
-  &:hover {
-    background-color: #0056b3;
+  &[type="submit"] {
+    background-color: #007bff;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  &.btn-secondary {
+    background-color: #6c757d;
+
+    &:hover {
+      background-color: #5a6268;
+    }
   }
 }
 

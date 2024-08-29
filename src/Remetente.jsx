@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import $ from "jquery";
 import "jquery-mask-plugin";
+import Api from "./Api";
+import Util from "./Util";
 
 const options = {
   onKeyPress: function (cpf, ev, el, op) {
@@ -19,7 +21,27 @@ const Remetente = (props) => {
   useEffect(() => {
     $('#remetente_cpf_cnpj').length > 11 ? $('#remetente_cpf_cnpj').mask('00.000.000/0000-00', options) : $('#remetente_cpf_cnpj').mask('000.000.000-00#', options);
     $('#remetente_cep').mask('00000-000');
-  }, []);
+
+    // TODO - Terminar a validação do CPF e CNPJ
+    if (cpfCnpjRemetente.trim().length === 14) {
+      // Check CPF
+      console.log(Util.checkCPF(cpfCnpjRemetente) ? `CPF ${cpfCnpjRemetente} válido` : `CPF ${cpfCnpjRemetente} inválido`);
+    } else if (cpfCnpjRemetente.trim().length === 18) {
+      // Check CNPJ
+    }
+
+    if (enderecoRemetente.trim().length === 0 && cepRemetente.trim().length === 9) {
+      new Api().getCEPData(cepRemetente).then((data) => {
+        console.log(data.bairro);
+        if (data.erro) {
+          // CEP inválido
+          return;
+        }
+        setEnderecoRemetente(`${data.logradouro ? data.logradouro : 'XXX'} - Bairro ${data.bairro ? data.bairro : 'XXX'} ${data.complemento ? 'Complemento: ' + data.complemento : ''}`);
+        setCidadeUfRemetente(`${data.localidade}/${data.uf}`);
+      });
+    }
+  }, [cpfCnpjRemetente, cepRemetente, enderecoRemetente]);
 
   return (
     <>
