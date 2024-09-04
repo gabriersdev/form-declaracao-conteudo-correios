@@ -1,9 +1,8 @@
 /* Import Inter Tight from Fonts.google */
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 
 body {
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   margin: 0;
   padding: 20px;
   background-color: #f7f7f7;
@@ -18,7 +17,6 @@ body {
 }
 
 h1 {
-  font-family: 'Inter Tight', 'Inter', Arial, sans-serif;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -42,6 +40,7 @@ th {
 input[type="text"],
 input[type="number"],
 input[type="date"] {
+  text-transform: uppercase;
   width: 100%;
   font-family: inherit;
   margin-top: 0.5rem;

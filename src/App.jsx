@@ -3,10 +3,23 @@ import Conteudo from './Conteudo'
 import Destinatario from './Destinatario'
 import Remetente from './Remetente'
 
-import { useEffect, useState } from 'react'
-import $ from 'jquery'
-import 'jquery-mask-plugin'
+import pdfMake from 'pdfmake/build/pdfmake.js';
 
+pdfMake.fonts = {
+  // download default Roboto font from cdnjs.com
+  Roboto: {
+    normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+    bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+    italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+    bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+  },
+}
+
+// TODO - Implementar useContext para passar os campos para outros componentes
+import { useState, createContext } from 'react'
+import Util from './Util';
+
+export const ThemeContext = createContext(null)
 
 const fields = {
   "remetente": [
@@ -15,6 +28,7 @@ const fields = {
       label: 'Nome',
       type: 'text',
       placeholder: 'Nome do Remetente',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -24,6 +38,7 @@ const fields = {
       label: 'CPF/CNPJ',
       type: 'text',
       placeholder: 'CPF ou CNPJ do Remetente',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -33,6 +48,7 @@ const fields = {
       label: 'Endereço',
       type: 'text',
       placeholder: 'Endereço do Remetente',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -42,6 +58,7 @@ const fields = {
       label: 'CEP',
       type: 'text',
       placeholder: 'CEP do Remetente',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -51,6 +68,7 @@ const fields = {
       label: 'Cidade/UF',
       type: 'text',
       placeholder: 'Cidade/UF do Remetente',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -63,6 +81,7 @@ const fields = {
       label: 'Nome',
       type: 'text',
       placeholder: 'Nome do Destinatário',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -72,6 +91,7 @@ const fields = {
       label: 'CPF/CNPJ',
       type: 'text',
       placeholder: 'CPF ou CNPJ do Destinatário',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -81,6 +101,7 @@ const fields = {
       label: 'Endereço',
       type: 'text',
       placeholder: 'Endereço do Destinatário',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -90,6 +111,7 @@ const fields = {
       label: 'CEP',
       type: 'text',
       placeholder: 'CEP do Destinatário',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -99,6 +121,7 @@ const fields = {
       label: 'Cidade/UF',
       type: 'text',
       placeholder: 'Cidade/UF do Destinatário',
+      value: '',
       required: true,
       className: '',
       validation: '',
@@ -148,47 +171,103 @@ const fields = {
 function App() {
   const [data, setData] = useState(new Date().toISOString().split('T')[0])
 
+  const validityForm = (e) => {
+    if (Array.from(e.target.closest('form').querySelectorAll('input')).filter((input) => input.required == true && input.value.trim().length == 0).length === 0) {
+      e.preventDefault()
+      return true
+    } else if (Array.from(e.target.closest('form').querySelectorAll(':user-invalid'))) {
+      if (Array.from(e.target.closest('form').querySelectorAll(':user-invalid')).lenght > 0) {
+        Array.from(e.target.closest('form').querySelectorAll(':user-invalid'))[0].focus()
+        alert('Existe 1 ou mais campos preenchidos incorretamente')
+        return false
+      }
+    }
+    return false
+  }
+
   const handleSubmit = (e) => {
-    e.preventDefault()
-    window.print()
+    if (validityForm(e)) window.print()
   }
 
-  const handleLabelForm = () => {
+  const handleLabelForm = (e) => {
+    // Necessário verificar se campos estão OK
     // Usar pdfmake para gerar o PDF
+    if (!validityForm(e)) return
 
-    const xxx = `
-    Rementente:
-    Nome: ${''}
-    CPF/CNPJ: ${''}
-    Endereço: ${''}
-    CEP: ${''}
-    Cidade/UF: ${''}
+    // Gerar PDF
+    pdfMake.createPdf({
+      content: [
+        {
+          text: 'Etiqueta de Postagem',
+          style: 'header'
+        },
+        {
+          text: 'Remetente',
+          style: 'subheader'
+        },
+        {
+          table: {
+            body: [
+              [{ text: 'NOME', bold: true }, { text: 'CPF/CNPJ', bold: true }],
+              [fields.remetente[0].value.toUpperCase().trim(), new Util().stringMask('verify', fields.remetente[1].value.toUpperCase().trim())],
+              [{ text: 'ENDEREÇO REMETENTE', bold: true }, { text: 'CEP', bold: true }],
+              [`${fields.remetente[2].value.toUpperCase().trim()} - CIDADE/UF: ${fields.remetente[4].value.toUpperCase().trim()}`, new Util().stringMask('cep', fields.remetente[3].value.toUpperCase().trim())],
+            ]
+          },
+          style: 'table'
+        },
+        {
+          text: 'Destinatário',
+          style: 'subheader'
+        },
+        {
+          table: {
+            body: [
+              [{ text: 'NOME', bold: true }, { text: 'CPF/CNPJ', bold: true }],
+              [fields.destinatario[0].value.toUpperCase().trim(), new Util().stringMask('verify', fields.destinatario[1].value.toUpperCase().trim())],
+              [{ text: 'ENDEREÇO DESTINO', bold: true }, { text: 'CEP', bold: true }],
+              [`${fields.destinatario[2].value.toUpperCase().trim()} - CIDADE/UF: ${fields.destinatario[4].value.toUpperCase().trim()}`, new Util().stringMask('cep', fields.destinatario[3].value.toUpperCase().trim())],
+            ]
+          },
+        }
+      ],
 
-    Destinatário:
-    Nome: ${''}
-    CPF/CNPJ: ${''}
-    Endereço: ${''}
-    CEP: ${''}
-    Cidade/UF: ${''}
-    `
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true
+        },
+        subheader: {
+          fontSize: 14,
+          bold: true,
+          margin: [0, 15, 0, 5]
+        },
+        table: {
+          margin: [0, 5, 0, 0]
+        },
+      },
+
+      defaultStyle: {
+        font: 'Roboto',
+        fontSize: 14,
+        bold: false
+      }
+    }).open()
   }
-
-  // TODO - Implementar a validação da data
-  useEffect(() => {
-    // Add. validação de data
-    // $('#data_assinatura').mask('00/00/0000')
-  })
 
   return (
     <>
       <div className="container">
         <h1>Declaração de Conteúdo</h1>
+        <span className='no-print' style={{ marginBottom: '1rem', display: 'block' }}>* Preenchimento obrigatório</span>
         <form action='#' method='POST '>
           <table>
             <tbody>
-              <Remetente fields={fields.remetente} />
-              <Destinatario fields={fields.destinatario} />
-              <Conteudo fields={fields.conteudo_descricao} />
+              <ThemeContext.Provider value={fields}>
+                <Remetente fields={fields.remetente} />
+                <Destinatario fields={fields.destinatario} />
+                <Conteudo fields={fields.conteudo_descricao} />
+              </ThemeContext.Provider>
 
               <tr>
                 <th colSpan="4">Declaração</th>
@@ -207,12 +286,11 @@ function App() {
                 <td colSpan="2">
                   <label htmlFor='data_assinatura'>Data:</label>
                   <input type="date" id="data_assinatura" value={data} onChange={(e) => setData(e.target.value)} required />
-                  {/* <input type="text" id="data_assinatura" value={data} onChange={(e) => setData(e.target.value)} required /> */}
                 </td>
               </tr>
               <tr className='no-print'>
                 <td colSpan="2"><button className='btn' type='submit' onClick={handleSubmit}>Imprimir</button></td>
-                <td colSpan="2"><button className='btn btn-secondary' type='button'>Gerar etiqueta</button></td>
+                <td colSpan="2"><button className='btn btn-secondary' type='submit' onClick={handleLabelForm}>Gerar etiqueta</button></td>
               </tr>
             </tbody>
           </table>
