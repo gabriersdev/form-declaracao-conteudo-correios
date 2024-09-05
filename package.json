@@ -2,7 +2,7 @@
   "name": "form-declaracao-conteudo-correios",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://gabriersdev.github.io/form-declaracao-conteudo-correios",
+  "homepage": "./form-declaracao-conteudo-correios/",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
