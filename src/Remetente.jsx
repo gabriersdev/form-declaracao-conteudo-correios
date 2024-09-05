@@ -12,11 +12,29 @@ const options = {
   }
 }
 
+// New Promise ...
+const infoData = () => {
+  const mode = 1
+  if (mode === 0 || mode === 2) {
+    return fetch('./public-data.json').then((response) => response.json());
+  } else if (mode === 1) {
+    return fetch('./private-data.json').then((response) => response.json());
+  }
+}
+
 const Remetente = () => {
+  infoData().then((data) => {
+    setNomeRemetente(data.nome);
+    setCpfCnpjRemetente(data.cpf_cnpj);
+    setEnderecoRemetente(data.endereco);
+    setCepRemetente(data.cep);
+    setCidadeUfRemetente(data.cidade_uf);
+  });
+
   const fields = useContext(ThemeContext);
 
-  const [nomeRemetente, setNomeRemetente] = useState('');
-  const [cpfCnpjRemetente, setCpfCnpjRemetente] = useState('');
+  const [nomeRemetente, setNomeRemetente] = useState();
+  const [cpfCnpjRemetente, setCpfCnpjRemetente] = useState();
   const [enderecoRemetente, setEnderecoRemetente] = useState('');
   const [cepRemetente, setCepRemetente] = useState('');
   const [cidadeUfRemetente, setCidadeUfRemetente] = useState('');
