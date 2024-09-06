@@ -2,8 +2,11 @@
   "name": "form-declaracao-conteudo-correios",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://gabriersdev.github.io/form-declaracao-conteudo-correios/",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -12,8 +15,10 @@
   "dependencies": {
     "jquery": "^3.7.1",
     "jquery-mask-plugin": "^1.14.16",
+    "pdfmake": "^0.2.12",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -24,6 +29,7 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
+    "gh-pages": "^6.1.1",
     "globals": "^15.9.0",
     "vite": "^5.4.1"
   }
