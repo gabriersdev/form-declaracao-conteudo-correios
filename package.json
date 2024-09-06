@@ -2,7 +2,7 @@
   "name": "form-declaracao-conteudo-correios",
   "private": true,
   "version": "0.0.0",
-  "homepage": "./form-declaracao-conteudo-correios/",
+  "homepage": "./",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
