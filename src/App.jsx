@@ -172,6 +172,16 @@ function App() {
   const [data, setData] = useState(new Date().toISOString().split('T')[0])
 
   const validityForm = (e) => {
+    const fieldsMonit = [
+      ...fields.remetente,
+      ...fields.destinatario,
+    ]
+
+    if (fieldsMonit.filter((fild) => fild.value.trim().length === 0).length > 0) {
+      alert('Existe 1 ou mais campos obrigatórios não preenchidos')
+      return false
+    }
+
     if (Array.from(e.target.closest('form').querySelectorAll('input')).filter((input) => input.required == true && input.value.trim().length == 0).length === 0) {
       e.preventDefault()
       return true
@@ -229,6 +239,7 @@ function App() {
               [`${fields.destinatario[2].value.toUpperCase().trim()} - CIDADE/UF: ${fields.destinatario[4].value.toUpperCase().trim()}`, new Util().stringMask('cep', fields.destinatario[3].value.toUpperCase().trim())],
             ]
           },
+          style: 'table'
         }
       ],
 
@@ -290,7 +301,7 @@ function App() {
               </tr>
               <tr className='no-print'>
                 <td colSpan="2"><button className='btn' type='submit' onClick={handleSubmit}>Imprimir</button></td>
-                <td colSpan="2"><button className='btn btn-secondary' type='submit' onClick={handleLabelForm}>Gerar etiqueta</button></td>
+                <td colSpan="2"><button className='btn btn-secondary' type='button' onClick={handleLabelForm}>Gerar etiqueta</button></td>
               </tr>
             </tbody>
           </table>
