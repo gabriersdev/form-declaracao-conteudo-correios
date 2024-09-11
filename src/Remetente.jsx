@@ -5,6 +5,8 @@ import Api from "./Api";
 import Util from "./Util";
 import { ThemeContext } from "./App";
 
+let i = 0;
+
 const options = {
   onKeyPress: function (cpf, ev, el, op) {
     var masks = ['000.000.000-000', '00.000.000/0000-00'];
@@ -14,11 +16,16 @@ const options = {
 
 // New Promise ...
 const infoData = () => {
+  fetch('./private-data.json').then((response) => response.json()).then((data) => data)
   const mode = 1
   if (mode === 0 || mode === 2) {
-    return fetch('./public-data.json').then((response) => response.json());
+    return new Promise((resolve) => {
+      resolve(fetch('./public-data.json').then((response) => response.json()).then((data) => data))
+    });
   } else if (mode === 1) {
-    return fetch('./private-data.json').then((response) => response.json());
+    return new Promise((resolve) => {
+      resolve(fetch('./private-data.json').then((response) => response.json()).then((data) => data))
+    });
   }
 }
 
@@ -42,9 +49,27 @@ const Remetente = () => {
   }
 
   useEffect(() => {
+    // Gambiarra para evitar que a função infoData() seja chamada a cada renderização de um dos componentes monitorados pelo useEffect
+    if (i === 0) {
+      infoData()
+        .then((data) => {
+          // console.log(data);
+          if (data.nome) setNomeRemetente(data.nome);
+          if (data.cpf_cnpj) setCpfCnpjRemetente(new Util().stringMask('cpf', data.cpf_cnpj));
+          if (data.endereco) setEnderecoRemetente(data.endereco);
+          if (data.cep) setCepRemetente(new Util().stringMask('cep', data.cep));
+          if (data.cidade_uf) setCidadeUfRemetente(data.cidade_uf);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    i++;
+
     $('#remetente_cpf_cnpj').length > 11 ? $('#remetente_cpf_cnpj').mask('00.000.000/0000-00', options) : $('#remetente_cpf_cnpj').mask('000.000.000-00#', options);
     $('#remetente_cep').mask('00000-000');
 
+    // TODO - Separar em funções específicas
     if (enderecoRemetente.trim().length === 0 && cepRemetente.trim().length === 9) {
       new Api().getCEPData(cepRemetente).then((data) => {
         if (data.erro) {
@@ -62,7 +87,9 @@ const Remetente = () => {
     fields.remetente[3].value = cepRemetente;
     fields.remetente[4].value = cidadeUfRemetente;
 
-  }, [fields.remetente, nomeRemetente, cpfCnpjRemetente, enderecoRemetente, cepRemetente, cidadeUfRemetente]);
+  },
+    // Componentes monitorados
+    [fields.remetente, nomeRemetente, cpfCnpjRemetente, enderecoRemetente, cepRemetente, cidadeUfRemetente]);
 
   return (
     <>

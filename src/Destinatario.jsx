@@ -23,7 +23,7 @@ const Destinatario = () => {
 
   const handleCPFCNPJDestinatario = (e) => {
     setCpfCnpjDestinatario(e.target.value);
-    console.log(cpfCnpjDestinatario);
+    // console.log(cpfCnpjDestinatario);
 
     if (cpfCnpjDestinatario) {
       // Check CPF
