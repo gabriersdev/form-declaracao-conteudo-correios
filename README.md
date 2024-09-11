@@ -32,30 +32,31 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 ## Como executar o projeto localmente
 
-    1. **Clone o repositório:** 
-      ```bash
-      git clone https://github.com/gabriersdev/form-declaracao-conteudo-correios.git
-      ```
+  1. **Clone o repositório:**
 
-    2. **Acesse a pasta do projeto:**
+```bash
+git clone https://github.com/gabriersdev/form-declaracao-conteudo-correios.git
+```
 
-      ```bash
-      cd form-declaracao-conteudo-correios
-      ```
+  1. **Acesse a pasta do projeto:**
 
-    3. **Instale as dependências:**
+```bash
+cd form-declaracao-conteudo-correios
+```
 
-      ```bash
-      npm install
-      ```
+  1. **Instale as dependências:**
 
-    4. **Inicie o servidor de desenvolvimento:**
+```bash
+npm install
+```
 
-      ```bash
-      npm start
-      ```
+  1. **Inicie o servidor de desenvolvimento:**
 
-      Isso abrirá o projeto em seu navegador padrão, geralmente em `http://localhost:3000/`.
+```bash
+npm start
+```
+
+  Isso abrirá o projeto em seu navegador padrão, geralmente em `http://localhost:3000/`.
 
 ## Contribuições
 
