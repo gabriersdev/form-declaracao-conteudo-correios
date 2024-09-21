@@ -43,8 +43,10 @@ const Remetente = () => {
 
     if (cpfCnpjRemetente) {
       // Check CPF
-      Util.checkCPF(e.target.value) ? e.target.setCustomValidity('') : e.target.setCustomValidity('CPF inválido');
-      // console.log(Util.checkCPF(cpfCnpjRemetente) ? `CPF ${cpfCnpjRemetente} válido` : `CPF ${cpfCnpjRemetente} inválido`);
+      if (e.target.value.trim().length <= 14) Util.checkCPF(e.target.value) ? e.target.setCustomValidity('') : e.target.setCustomValidity('CPF inválido');
+      else if (e.target.value.trim().length <= 18) Util.checkCNPJ(e.target.value) ? e.target.setCustomValidity('') : e.target.setCustomValidity('CNPJ inválido');
+
+      console.log(Util.checkCPF(e.target.value), Util.checkCNPJ(e.target.value));
     }
   }
 

@@ -3,8 +3,9 @@ import Conteudo from './Conteudo'
 import Destinatario from './Destinatario'
 import Remetente from './Remetente'
 
+// Import pdfmake para gerar PDF
 import pdfMake from 'pdfmake/build/pdfmake.js';
-
+// Configuração de fontes para o pdfmake
 pdfMake.fonts = {
   // download default Roboto font from cdnjs.com
   Roboto: {
@@ -16,7 +17,7 @@ pdfMake.fonts = {
 }
 
 // TODO - Implementar useContext para passar os campos para outros componentes
-import { useState, createContext } from 'react'
+import { useState, createContext, useEffect } from 'react'
 import Util from './Util';
 
 export const ThemeContext = createContext(null)
@@ -178,17 +179,19 @@ function App() {
     ]
 
     if (fieldsMonit.filter((fild) => fild.value.trim().length === 0).length > 0) {
-      alert('Existe 1 ou mais campos obrigatórios não preenchidos')
       return false
     }
 
     if (Array.from(e.target.closest('form').querySelectorAll('input')).filter((input) => input.required == true && input.value.trim().length == 0).length === 0) {
-      e.preventDefault()
+      try {
+        e.preventDefault()
+      } catch (error) {
+        console.log(error);
+      }
       return true
     } else if (Array.from(e.target.closest('form').querySelectorAll(':user-invalid'))) {
       if (Array.from(e.target.closest('form').querySelectorAll(':user-invalid')).lenght > 0) {
         Array.from(e.target.closest('form').querySelectorAll(':user-invalid'))[0].focus()
-        alert('Existe 1 ou mais campos preenchidos incorretamente')
         return false
       }
     }
@@ -197,12 +200,16 @@ function App() {
 
   const handleSubmit = (e) => {
     if (validityForm(e)) window.print()
+    else alert('Existe 1 ou mais campos preenchidos incorretamente')
   }
 
   const handleLabelForm = (e) => {
     // Necessário verificar se campos estão OK
     // Usar pdfmake para gerar o PDF
-    if (!validityForm(e)) return
+    if (!validityForm(e)) {
+      alert('Existe 1 ou mais campos preenchidos incorretamente')
+      return
+    }
 
     // Gerar PDF
     pdfMake.createPdf({
@@ -265,6 +272,18 @@ function App() {
       }
     }).open()
   }
+
+  useEffect(() => {
+    window.onbeforeprint = (e) => {
+      document.body.style.display = 'none'
+      e.preventDefault()
+      if (!validityForm(document.querySelector('form'))) alert('Existe 1 ou mais campos preenchidos incorretamente')
+    };
+
+    window.onafterprint = () => {
+      if (!validityForm(document.querySelector('form').submit())) document.body.style.display = 'initial'
+    }
+  }, [])
 
   return (
     <>
