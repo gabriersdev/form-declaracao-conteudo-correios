@@ -320,7 +320,7 @@ function App() {
               </tr>
               <tr className='no-print'>
                 <td colSpan="2"><button className='btn' type='submit' onClick={handleSubmit}>Imprimir</button></td>
-                <td colSpan="2"><button className='btn btn-secondary' type='button' onClick={handleLabelForm}>Gerar etiqueta</button></td>
+                <td colSpan="2"><button className='btn btn-secondary' type='submit' onClick={handleLabelForm}>Gerar etiqueta</button></td>
               </tr>
             </tbody>
           </table>
