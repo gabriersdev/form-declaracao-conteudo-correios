@@ -193,13 +193,14 @@ function App() {
       ...fields.destinatario,
     ]
 
-    if (fieldsMonit.find((fild) => fild.value ? fild.value.trim().length === 0 : true)) {
+    if (fieldsMonit.find((fild) => fild.value ? fild.value.trim().length === 0 : null)) {
       return false
     }
 
-    if(fieldsMonit.find((fild) => fild.isValid ? fild.isValid === false : false)) {
-      return false
-    }
+    // BUG: Test Error:
+    // if(fieldsMonit.find((fild) => fild.isValid ? fild.isValid === false : false)) {
+    //   return false
+    // }
 
     const element = e.target ? e.target : e
 
@@ -296,19 +297,19 @@ function App() {
   }
 
   useEffect(() => {
-    window.onbeforeprint = (e) => {
-      document.body.style.display = 'none'
-      e.preventDefault()
-      if (!validityForm(document.querySelector('form'))) {
-        alert('Existe 1 ou mais campos preenchidos incorretamente')
-      } else {
-        document.body.style.display = 'block'
-      }
-    };
+    // window.onbeforeprint = (e) => {
+    //   document.body.style.display = 'none'
+    //   e.preventDefault()
+    //   if (!validityForm(document.querySelector('form'))) {
+    //     alert('Existe 1 ou mais campos preenchidos incorretamente')
+    //   } else {
+    //     document.body.style.display = 'block'
+    //   }
+    // };
 
-    window.onafterprint = () => {
-      document.body.style.display = 'block'
-    }
+    // window.onafterprint = () => {
+    //   document.body.style.display = 'block'
+    // }
   }, [])
 
   return (
