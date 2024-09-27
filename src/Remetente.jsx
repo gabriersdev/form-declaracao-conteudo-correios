@@ -14,17 +14,16 @@ const options = {
   }
 }
 
-// New Promise ...
 const infoData = () => {
-  fetch('./private-data.json').then((response) => response.json()).then((data) => data)
-  const mode = 1
+  const mode = 2
   if (mode === 0 || mode === 2) {
     return new Promise((resolve) => {
-      resolve(fetch('./public-data.json').then((response) => response.json()).then((data) => data))
+      resolve(fetch('public-data.json').then((response) => response.json()).then((data) => data))
     });
   } else if (mode === 1) {
+    // Private data is a JSON file that is not available in the repository
     return new Promise((resolve) => {
-      resolve(fetch('./private-data.json').then((response) => response.json()).then((data) => data))
+      resolve(fetch('./private/private-data.json').then((response) => response.json()).then((data) => data))
     });
   }
 }
@@ -43,10 +42,15 @@ const Remetente = () => {
 
     if (cpfCnpjRemetente) {
       // Check CPF
-      if (e.target.value.trim().length <= 14) Util.checkCPF(e.target.value) ? e.target.setCustomValidity('') : e.target.setCustomValidity('CPF inválido');
-      else if (e.target.value.trim().length <= 18) Util.checkCNPJ(e.target.value) ? e.target.setCustomValidity('') : e.target.setCustomValidity('CNPJ inválido');
-
-      console.log(Util.checkCPF(e.target.value), Util.checkCNPJ(e.target.value));
+      let res = null
+      if (e.target.value.trim().length <= 14) {
+        res = Util.checkCPF(e.target.value);
+        res ? e.target.setCustomValidity('') : e.target.setCustomValidity('CPF inválido');
+      } else if (e.target.value.trim().length <= 18) {
+        res = Util.checkCNPJ(e.target.value);
+        res ? e.target.setCustomValidity('') : e.target.setCustomValidity('CNPJ inválido');
+      }
+      fields.remetente[1].isValid = res;
     }
   }
 
