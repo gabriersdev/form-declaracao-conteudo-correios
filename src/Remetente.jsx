@@ -15,7 +15,7 @@ const options = {
 }
 
 const infoData = () => {
-  const mode = 1
+  const mode = 2
   if (mode === 0 || mode === 2) {
     return new Promise((resolve) => {
       resolve(fetch('public-data.json').then((response) => response.json()).then((data) => data))
