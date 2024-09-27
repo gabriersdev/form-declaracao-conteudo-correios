@@ -105,27 +105,27 @@ const Remetente = () => {
       <tr>
         <td colSpan="3">
           <label htmlFor="remetente_nome">Nome:*</label>
-          <input type="text" id="remetente_nome" required value={nomeRemetente} onChange={(e) => setNomeRemetente(e.target.value)} />
+          <input type="text" id="remetente_nome" required value={nomeRemetente} onInput={(e) => setNomeRemetente(e.target.value)} />
         </td>
         <td>
           <label htmlFor="remetente_cpf_cnpj">CPF<span className="arial">/</span>CNPJ:*</label>
-          <input type="text" id="remetente_cpf_cnpj" pattern="[\w\.\-]{14}|[\w\.\-\/]{18}" title="Digite 14 dígitos para CPF ou 18 dígitos para CNPJ" required value={cpfCnpjRemetente} onChange={handleCPFCNPJRemetente} />
+          <input type="text" id="remetente_cpf_cnpj" pattern="[\w\.\-]{14}|[\w\.\-\/]{18}" title="Digite 14 dígitos para CPF ou 18 dígitos para CNPJ" required value={cpfCnpjRemetente} onInput={handleCPFCNPJRemetente} />
         </td>
       </tr>
       <tr>
         <td colSpan="4">
           <label htmlFor="remetente_endereco">Endereço:*</label>
-          <input type="text" id="remetente_endereco" required value={enderecoRemetente} onChange={(e) => setEnderecoRemetente(e.target.value)} />
+          <input type="text" id="remetente_endereco" required value={enderecoRemetente} onInput={(e) => setEnderecoRemetente(e.target.value)} />
         </td>
       </tr>
       <tr>
         <td>
           <label htmlFor="remetente_cep">CEP:*</label>
-          <input type="text" id="remetente_cep" minLength={8} title="Digite 8 dígitos para o CEP" required value={cepRemetente} onChange={(e) => setCepRemetente(e.target.value)} />
+          <input type="text" id="remetente_cep" minLength={8} title="Digite 8 dígitos para o CEP" required value={cepRemetente} onInput={(e) => setCepRemetente(e.target.value)} />
         </td>
         <td colSpan="3">
           <label htmlFor="remetente_cidade_uf">Cidade<span className="arial">/</span>UF:*</label>
-          <input type="text" id="remetente_cidade_uf" required value={cidadeUfRemetente} onChange={(e) => setCidadeUfRemetente(e.target.value)} />
+          <input type="text" id="remetente_cidade_uf" required value={cidadeUfRemetente} onInput={(e) => setCidadeUfRemetente(e.target.value)} />
         </td>
       </tr>
     </>

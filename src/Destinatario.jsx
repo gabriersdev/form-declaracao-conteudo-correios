@@ -71,27 +71,27 @@ const Destinatario = () => {
       <tr>
         <td colSpan="3">
           <label htmlFor="destinatario_nome">Nome:*</label>
-          <input type="text" id="destinatario_nome" required value={nomeDestinatario} onChange={(e) => setNomeDestinatario(e.target.value)} />
+          <input type="text" id="destinatario_nome" required value={nomeDestinatario} onInput={(e) => setNomeDestinatario(e.target.value)} />
         </td>
         <td>
           <label htmlFor="destinatario_cpf_cnpj">CPF<span className="arial">/</span>CNPJ:*</label>
-          <input type="text" id="destinatario_cpf_cnpj" pattern="[\w\.\-]{14}|[\w\.\-\/]{18}" title="Digite 14 dígitos para CPF ou 18 dígitos para CNPJ" required value={cpfCnpjDestinatario} onChange={handleCPFCNPJDestinatario} />
+          <input type="text" id="destinatario_cpf_cnpj" pattern="[\w\.\-]{14}|[\w\.\-\/]{18}" title="Digite 14 dígitos para CPF ou 18 dígitos para CNPJ" required value={cpfCnpjDestinatario} onInput={handleCPFCNPJDestinatario} />
         </td>
       </tr>
       <tr>
         <td colSpan="4">
           <label htmlFor="destinatario_endereco">Endereço:*</label>
-          <input type="text" id="destinatario_endereco" required value={enderecoDestinatario} onChange={(e) => setEnderecoDestinatario(e.target.value)} />
+          <input type="text" id="destinatario_endereco" required value={enderecoDestinatario} onInput={(e) => setEnderecoDestinatario(e.target.value)} />
         </td>
       </tr>
       <tr>
         <td>
           <label htmlFor="destinatario_cep">CEP:*</label>
-          <input type="text" id="destinatario_cep" minLength={8} title="Digite 8 dígitos para o CEP" required value={cepDestinatario} onChange={(e) => setCepDestinatario(e.target.value)} />
+          <input type="text" id="destinatario_cep" minLength={8} title="Digite 8 dígitos para o CEP" required value={cepDestinatario} onInput={(e) => setCepDestinatario(e.target.value)} />
         </td>
         <td colSpan="3">
           <label htmlFor="destinatario_cidade_uf">Cidade<span className="arial">/</span>UF:*</label>
-          <input type="text" id="destinatario_cidade_uf" required value={cidadeUfDestinatario} onChange={(e) => setCidadeUfDestinatario(e.target.value)} />
+          <input type="text" id="destinatario_cidade_uf" required value={cidadeUfDestinatario} onInput={(e) => setCidadeUfDestinatario(e.target.value)} />
         </td>
       </tr></>
   )
