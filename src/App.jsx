@@ -16,6 +16,11 @@ pdfMake.fonts = {
   },
 }
 
+// ERRO: validação
+// ERRO: Ci.remetente[1].value is undefined
+// ERRO: máscaras não funcionam corretamente
+// ERRO: Cannot read properties of undefined toUpperCase
+
 import { useState, createContext, useEffect } from 'react'
 import Util from './Util';
 
