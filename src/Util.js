@@ -88,7 +88,13 @@ class Util {
   // String Mask
   stringMask(type, value) {
     try {
-      const newValue = value.match(/\d/g).join('')
+      let newValue = value;
+      try {
+        newValue = value.match(/\d/g).join('')
+      } catch (error) {
+        console.log(error, value);
+        newValue = value;
+      }
 
       if (type === 'verify') {
         if (newValue.length == 11) type = 'cpf';

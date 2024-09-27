@@ -197,7 +197,7 @@ function App() {
       return false
     }
 
-    // BUG: Test Error:
+    // BUG: Error:
     // if(fieldsMonit.find((fild) => fild.isValid ? fild.isValid === false : false)) {
     //   return false
     // }
@@ -207,13 +207,15 @@ function App() {
     if (Array.from(element.closest('form').querySelectorAll('input')).filter((input) => input.required == true && input.value.trim().length == 0).length === 0) {
       try {
         // Prevent default form submit if element is a form (attribute target and tagName form)
-        if (element.target) if(element.target.tagName.toLowerCase() === 'form') element.preventDefault()
+        if (element.target) if(element.target.tagName.toLowerCase() === 'form') e.preventDefault()
       } catch (error) {
         console.log(error);
+        return false
       }
       return true
     } else if (Array.from(element.closest('form').querySelectorAll(':user-invalid'))) {
       if (Array.from(element.closest('form').querySelectorAll(':user-invalid')).lenght > 0) {
+        console.log('user-invalid', Array.from(element.closest('form').querySelectorAll(':user-invalid')));
         Array.from(element.closest('form').querySelectorAll(':user-invalid'))[0].focus()
         return false
       }
@@ -222,14 +224,17 @@ function App() {
   }
 
   const handleSubmit = (e) => {
-    if (validityForm(e)) window.print()
-    else alert('Existe 1 ou mais campos preenchidos incorretamente')
+    if (validityForm(e)) {
+      e.preventDefault();
+      window.print()
+    } else alert('Existe 1 ou mais campos preenchidos incorretamente')
   }
 
   const handleLabelForm = (e) => {
     // Necessário verificar se campos estão OK
     // Usar pdfmake para gerar o PDF
-    if (!validityForm(e)) {
+    if (validityForm(e)) e.preventDefault()
+    else {
       alert('Existe 1 ou mais campos preenchidos incorretamente')
       return
     }
@@ -249,9 +254,9 @@ function App() {
           table: {
             body: [
               [{ text: 'NOME', bold: true }, { text: 'CPF/CNPJ', bold: true }],
-              [fields.remetente[0].value.toUpperCase().trim(), new Util().stringMask('verify', fields.remetente[1].value.toUpperCase().trim())],
+              [fields.remetente[0].value.toUpperCase().trim() || '-', new Util().stringMask('verify', fields.remetente[1].value.toUpperCase().trim()) || '-'],
               [{ text: 'ENDEREÇO REMETENTE', bold: true }, { text: 'CEP', bold: true }],
-              [`${fields.remetente[2].value.toUpperCase().trim()} - CIDADE/UF: ${fields.remetente[4].value.toUpperCase().trim()}`, new Util().stringMask('cep', fields.remetente[3].value.toUpperCase().trim())],
+              [`${fields.remetente[2].value.toUpperCase().trim() || '-'} - CIDADE/UF: ${fields.remetente[4].value.toUpperCase().trim() || '-'}`, new Util().stringMask('cep', fields.remetente[3].value.toUpperCase().trim()) || '-'],
             ]
           },
           style: 'table'
@@ -317,7 +322,7 @@ function App() {
       <div className="container">
         <h1>Declaração de Conteúdo</h1>
         <span className='no-print' style={{ marginBottom: '1rem', display: 'block' }}>* Preenchimento obrigatório</span>
-        <form action='#' method='POST '>
+        <form action='#' method='POST'>
           <table>
             <tbody>
               <ThemeContext.Provider value={fields}>
