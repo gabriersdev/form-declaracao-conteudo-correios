@@ -16,7 +16,6 @@ pdfMake.fonts = {
   },
 }
 
-// TODO - Implementar useContext para passar os campos para outros componentes
 import { useState, createContext, useEffect } from 'react'
 import Util from './Util';
 
@@ -33,6 +32,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'remetente_cpf_cnpj',
@@ -43,6 +43,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'remetente_endereco',
@@ -53,6 +54,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'remetente_cep',
@@ -63,6 +65,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'remetente_cidade_uf',
@@ -73,6 +76,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
   ],
 
@@ -86,6 +90,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'destinatario_cpf_cnpj',
@@ -96,6 +101,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'destinatario_endereco',
@@ -106,6 +112,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'destinatario_cep',
@@ -116,6 +123,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'destinatario_cidade_uf',
@@ -126,6 +134,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     }
   ],
 
@@ -138,6 +147,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'conteudo_quantidade_1',
@@ -147,6 +157,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'conteudo_valor_1',
@@ -156,6 +167,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
     {
       id: 'conteudo_peso_1',
@@ -165,6 +177,7 @@ const fields = {
       required: true,
       className: '',
       validation: '',
+      isValid: '',
     },
   ]
 }
@@ -172,26 +185,35 @@ const fields = {
 function App() {
   const [data, setData] = useState(new Date().toISOString().split('T')[0])
 
+  // console.log(fields.remetente, fields.destinatario);
+
   const validityForm = (e) => {
     const fieldsMonit = [
       ...fields.remetente,
       ...fields.destinatario,
     ]
 
-    if (fieldsMonit.filter((fild) => fild.value.trim().length === 0).length > 0) {
+    if (fieldsMonit.find((fild) => fild.value ? fild.value.trim().length === 0 : true)) {
       return false
     }
 
-    if (Array.from(e.target.closest('form').querySelectorAll('input')).filter((input) => input.required == true && input.value.trim().length == 0).length === 0) {
+    if(fieldsMonit.find((fild) => fild.isValid ? fild.isValid === false : false)) {
+      return false
+    }
+
+    const element = e.target ? e.target : e
+
+    if (Array.from(element.closest('form').querySelectorAll('input')).filter((input) => input.required == true && input.value.trim().length == 0).length === 0) {
       try {
-        e.preventDefault()
+        // Prevent default form submit if element is a form (attribute target and tagName form)
+        if (element.target) if(element.target.tagName.toLowerCase() === 'form') element.preventDefault()
       } catch (error) {
         console.log(error);
       }
       return true
-    } else if (Array.from(e.target.closest('form').querySelectorAll(':user-invalid'))) {
-      if (Array.from(e.target.closest('form').querySelectorAll(':user-invalid')).lenght > 0) {
-        Array.from(e.target.closest('form').querySelectorAll(':user-invalid'))[0].focus()
+    } else if (Array.from(element.closest('form').querySelectorAll(':user-invalid'))) {
+      if (Array.from(element.closest('form').querySelectorAll(':user-invalid')).lenght > 0) {
+        Array.from(element.closest('form').querySelectorAll(':user-invalid'))[0].focus()
         return false
       }
     }
@@ -277,11 +299,15 @@ function App() {
     window.onbeforeprint = (e) => {
       document.body.style.display = 'none'
       e.preventDefault()
-      if (!validityForm(document.querySelector('form'))) alert('Existe 1 ou mais campos preenchidos incorretamente')
+      if (!validityForm(document.querySelector('form'))) {
+        alert('Existe 1 ou mais campos preenchidos incorretamente')
+      } else {
+        document.body.style.display = 'block'
+      }
     };
 
     window.onafterprint = () => {
-      if (!validityForm(document.querySelector('form').submit())) document.body.style.display = 'initial'
+      document.body.style.display = 'block'
     }
   }, [])
 

@@ -25,12 +25,17 @@ const Destinatario = () => {
     setCpfCnpjDestinatario(e.target.value);
     // console.log(cpfCnpjDestinatario);
 
-    if (cpfCnpjRemetente) {
+    if (cpfCnpjDestinatario) {
       // Check CPF
-      if (e.target.value.trim().length <= 14) Util.checkCPF(e.target.value) ? e.target.setCustomValidity('') : e.target.setCustomValidity('CPF inválido');
-      else if (e.target.value.trim().length <= 18) Util.checkCNPJ(e.target.value) ? e.target.setCustomValidity('') : e.target.setCustomValidity('CNPJ inválido');
-
-      console.log(Util.checkCPF(e.target.value), Util.checkCNPJ(e.target.value));
+      let res = null
+      if (e.target.value.trim().length <= 14) {
+        res = Util.checkCPF(e.target.value)
+        res ? e.target.setCustomValidity('') : e.target.setCustomValidity('CPF inválido');
+      } else if (e.target.value.trim().length <= 18) {
+        res = Util.checkCNPJ(e.target.value)
+        res ? e.target.setCustomValidity('') : e.target.setCustomValidity('CNPJ inválido');
+      }
+      fields.destinatario[1].isValid = res;
     }
   }
 
