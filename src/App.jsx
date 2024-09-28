@@ -229,6 +229,7 @@ function App() {
   }
 
   const handleSubmit = (e) => {
+    console.log(fields.remetente, fields.destinatario);
     if (validityForm(e)) {
       e.preventDefault();
       window.print()
@@ -236,6 +237,7 @@ function App() {
   }
 
   const handleLabelForm = (e) => {
+    console.log(fields.remetente, fields.destinatario);
     // Necessário verificar se campos estão OK
     // Usar pdfmake para gerar o PDF
     if (validityForm(e)) e.preventDefault()
@@ -259,9 +261,9 @@ function App() {
           table: {
             body: [
               [{ text: 'NOME', bold: true }, { text: 'CPF/CNPJ', bold: true }],
-              [fields.remetente[0].value.toUpperCase().trim() || '-', new Util().stringMask('verify', fields.remetente[1].value.toUpperCase().trim()) || '-'],
+              [fields.remetente[0].value.toUpperCase().trim().substring(0, 50) || '-', new Util().stringMask('verify', fields.remetente[1].value.toUpperCase().trim()) || '-'],
               [{ text: 'ENDEREÇO REMETENTE', bold: true }, { text: 'CEP', bold: true }],
-              [`${fields.remetente[2].value.toUpperCase().trim() || '-'} - CIDADE/UF: ${fields.remetente[4].value.toUpperCase().trim() || '-'}`, new Util().stringMask('cep', fields.remetente[3].value.toUpperCase().trim()) || '-'],
+              [`${fields.remetente[2].value.toUpperCase().trim().substring(0, 80) || '-'} - CIDADE/UF: ${fields.remetente[4].value.toUpperCase().trim().substring(0, 50) || '-'}`, new Util().stringMask('cep', fields.remetente[3].value.toUpperCase().trim()) || '-'],
             ]
           },
           style: 'table'
@@ -274,9 +276,9 @@ function App() {
           table: {
             body: [
               [{ text: 'NOME', bold: true }, { text: 'CPF/CNPJ', bold: true }],
-              [fields.destinatario[0].value.toUpperCase().trim(), new Util().stringMask('verify', fields.destinatario[1].value.toUpperCase().trim())],
+              [fields.destinatario[0].value.toUpperCase().trim().substring(0, 50), new Util().stringMask('verify', fields.destinatario[1].value.toUpperCase().trim())],
               [{ text: 'ENDEREÇO DESTINO', bold: true }, { text: 'CEP', bold: true }],
-              [`${fields.destinatario[2].value.toUpperCase().trim()} - CIDADE/UF: ${fields.destinatario[4].value.toUpperCase().trim()}`, new Util().stringMask('cep', fields.destinatario[3].value.toUpperCase().trim())],
+              [`${fields.destinatario[2].value.toUpperCase().trim().substring(0, 80)} - CIDADE/UF: ${fields.destinatario[4].value.toUpperCase().trim().substring(0, 50)}`, new Util().stringMask('cep', fields.destinatario[3].value.toUpperCase().trim())],
             ]
           },
           style: 'table'

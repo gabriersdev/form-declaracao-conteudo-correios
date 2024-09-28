@@ -105,7 +105,7 @@ const Remetente = () => {
       <tr>
         <td colSpan="3">
           <label htmlFor="remetente_nome">Nome:*</label>
-          <input type="text" id="remetente_nome" required value={nomeRemetente} onInput={(e) => setNomeRemetente(e.target.value)} />
+          <input type="text" id="remetente_nome" required value={nomeRemetente} maxLength={50} onInput={(e) => setNomeRemetente(e.target.value)} />
         </td>
         <td>
           <label htmlFor="remetente_cpf_cnpj">CPF<span className="arial">/</span>CNPJ:*</label>
@@ -115,17 +115,17 @@ const Remetente = () => {
       <tr>
         <td colSpan="4">
           <label htmlFor="remetente_endereco">Endereço:*</label>
-          <input type="text" id="remetente_endereco" required value={enderecoRemetente} onInput={(e) => setEnderecoRemetente(e.target.value)} />
+          <input type="text" id="remetente_endereco" required value={enderecoRemetente} maxLength={80} onInput={(e) => setEnderecoRemetente(e.target.value)} />
         </td>
       </tr>
       <tr>
         <td>
           <label htmlFor="remetente_cep">CEP:*</label>
-          <input type="text" id="remetente_cep" minLength={8} title="Digite 8 dígitos para o CEP" required value={cepRemetente} onInput={(e) => setCepRemetente(e.target.value)} />
+          <input type="text" id="remetente_cep" minLength={9} pattern="\d{5}\-\d{3}" title="Digite os dígitos para o CEP" required value={cepRemetente} onInput={(e) => setCepRemetente(e.target.value)} />
         </td>
         <td colSpan="3">
           <label htmlFor="remetente_cidade_uf">Cidade<span className="arial">/</span>UF:*</label>
-          <input type="text" id="remetente_cidade_uf" required value={cidadeUfRemetente} onInput={(e) => setCidadeUfRemetente(e.target.value)} />
+          <input type="text" id="remetente_cidade_uf" required value={cidadeUfRemetente} maxLength={50} onInput={(e) => setCidadeUfRemetente(e.target.value)} />
         </td>
       </tr>
     </>
