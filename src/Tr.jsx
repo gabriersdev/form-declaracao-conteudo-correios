@@ -15,7 +15,6 @@ const Tr = ({ id }) => {
         setDimensions({
           height: textareaRef.current.scrollHeight + 'px'
         });
-        console.log(textareaRef.current.scrollHeight);
       }
     };
 
