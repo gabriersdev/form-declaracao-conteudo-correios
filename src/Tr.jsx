@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import 'jquery-mask-plugin';
 import { useEffect, useState, useRef } from 'react';
+import PropType from 'prop-types';
 
 const Tr = ({ id }) => {
   const [dimensions, setDimensions] = useState({ height: 'initial' });
@@ -13,7 +14,7 @@ const Tr = ({ id }) => {
     const updateDimensions = () => {
       if (textareaRef.current) {
         setDimensions({
-          height: textareaRef.current.scrollHeight + 'px'
+          height: textareaRef.current.scrollHeight + 'px' || 'inital'
         });
       }
     };
@@ -24,7 +25,7 @@ const Tr = ({ id }) => {
 
     // Limpa o event listener ao desmontar o componente
     return () => window.removeEventListener('input', updateDimensions);
-  }, [])
+  }, [id])
 
 
   return (
@@ -35,6 +36,10 @@ const Tr = ({ id }) => {
       <td><input type="text" id={`conteudo_valor_${id}`} /></td>
     </tr >
   )
+}
+
+Tr.propTypes = {
+  id: PropType.number.isRequired
 }
 
 export default Tr;
