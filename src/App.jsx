@@ -21,7 +21,7 @@ pdfMake.fonts = {
 // ERRO: máscaras não funcionam corretamente
 // ERRO: Cannot read properties of undefined toUpperCase
 
-import { useState, createContext, useEffect } from 'react'
+import { useState, createContext } from 'react'
 import Util from './Util';
 
 export const ThemeContext = createContext(null)
@@ -212,7 +212,7 @@ function App() {
     if (Array.from(element.closest('form').querySelectorAll('input')).filter((input) => input.required == true && input.value.trim().length == 0).length === 0) {
       try {
         // Prevent default form submit if element is a form (attribute target and tagName form)
-        if (element.target) if(element.target.tagName.toLowerCase() === 'form') e.preventDefault()
+        if (element.target) if (element.target.tagName.toLowerCase() === 'form') e.preventDefault()
       } catch (error) {
         console.log(error);
         return false
@@ -307,22 +307,6 @@ function App() {
       }
     }).open()
   }
-
-  useEffect(() => {
-    // window.onbeforeprint = (e) => {
-    //   document.body.style.display = 'none'
-    //   e.preventDefault()
-    //   if (!validityForm(document.querySelector('form'))) {
-    //     alert('Existe 1 ou mais campos preenchidos incorretamente')
-    //   } else {
-    //     document.body.style.display = 'block'
-    //   }
-    // };
-
-    // window.onafterprint = () => {
-    //   document.body.style.display = 'block'
-    // }
-  }, [])
 
   return (
     <>

@@ -39,7 +39,8 @@ th {
 
 input[type="text"],
 input[type="number"],
-input[type="date"] {
+input[type="date"],
+textarea {
   text-transform: uppercase;
   width: 100%;
   font-family: inherit;
@@ -48,11 +49,16 @@ input[type="date"] {
   box-sizing: border-box;
   border: 1px solid #ccc;
   font-size: 1em;
+  word-break: keep-all;
 
   &[disabled] {
     border: unset;
     cursor: not-allowed;
   }
+}
+
+textarea {
+  resize: none;
 }
 
 input[type="text"]:user-invalid,
