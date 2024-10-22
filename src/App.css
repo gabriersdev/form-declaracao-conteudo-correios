@@ -40,6 +40,7 @@ th {
 input[type="text"],
 input[type="number"],
 input[type="date"],
+select,
 textarea {
   text-transform: uppercase;
   width: 100%;
@@ -153,10 +154,19 @@ input[type="number"] {
 
   input[type="text"],
   input[type="number"],
-  input[type="date"] {
+  input[type="date"],
+  select,
+  textarea {
     border: none;
     padding: 0px;
     margin-top: 2px;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-align: right;
   }
 
   input[type="date"] {

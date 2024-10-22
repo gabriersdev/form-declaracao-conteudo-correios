@@ -189,6 +189,8 @@ const fields = {
 
 function App() {
   const [data, setData] = useState(new Date().toISOString().split('T')[0])
+  const [selectCodigo, setSelectCodigo] = useState('autorizacao')
+  const [codigo, setCodigo] = useState('')
 
   // console.log(fields.remetente, fields.destinatario);
 
@@ -254,6 +256,10 @@ function App() {
           style: 'header'
         },
         {
+          text: `${selectCodigo === 'rastreio' ? 'Código de Rastreio:' : 'Código de Autorização de Postagem:'} ${codigo.trim()}`,
+          style: 'subheader'
+        },
+        {
           text: 'Remetente',
           style: 'subheader'
         },
@@ -312,7 +318,14 @@ function App() {
     <>
       <div className="container">
         <h1>Declaração de Conteúdo</h1>
-        <span className='no-print' style={{ marginBottom: '1rem', display: 'block' }}>* Preenchimento obrigatório</span>
+        <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'strech', justifyContent: 'center' }} className='info-codigo'>
+          <select name="select-codigo" id="select-codigo" value={selectCodigo} onChange={(e) => setSelectCodigo(e.target.value)} style={{ display: 'inline', width: 'auto', marginTop: 0 }}>
+            <option value="rastreio">CÓDIGO DE RASTREIO:</option>
+            <option value="autorizacao">CÓDIGO DE AUTORIZAÇÃO DE POSTAGEM:</option>
+          </select>
+          <input type="text" name="codigo" id="codigo" value={codigo} onChange={(e) => setCodigo(e.target.value)} style={{ display: 'inline', width: 'auto', marginTop: 0, fontWeight: 'bold' }} />
+        </div>
+        <span className='no-print' style={{ margin: '1rem 0', display: 'block' }}>* Preenchimento obrigatório</span>
         <form action='#' method='POST'>
           <table>
             <tbody>
